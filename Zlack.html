@@ -1,0 +1,837 @@
+Вот полностью готовый адаптивный HTML-документ для страницы резюме с плавными анимациями, созданный с использованием чистых HTML5, CSS3 и Vanilla JS.
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Анна Тихонова | Резюме — разработчик интерфейсов</title>
+  <style>
+    /* ---------- RESET & БАЗА ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Open Sans', sans-serif;
+      background: linear-gradient(145deg, #f8fafc 0%, #eef2f8 100%);
+      color: #0f2b38;
+      line-height: 1.5;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Контейнер с max-width и тенью */
+    .resume-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(0px);
+      border-radius: 2rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.02);
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+    }
+
+    /* адаптивная сетка: десктоп – две колонки / мобила – одна */
+    .resume-grid {
+      display: grid;
+      grid-template-columns: 34% 66%;
+    }
+
+    /* ========= ЛЕВАЯ КОЛОНКА (sidebar) ========= */
+    .sidebar {
+      background: #1c3c4c;
+      color: #f0f6fb;
+      padding: 2rem 1.8rem;
+      transition: all 0.2s ease;
+    }
+
+    .avatar-block {
+      text-align: center;
+      margin-bottom: 1.8rem;
+      animation: fadeSlideUp 0.6s ease-out;
+    }
+
+    .avatar-circle {
+      width: 130px;
+      height: 130px;
+      background: linear-gradient(135deg, #4d7c94, #235b72);
+      border-radius: 50%;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+      border: 3px solid #bfdceb;
+      transition: transform 0.25s ease, box-shadow 0.3s;
+    }
+
+    .avatar-circle:hover {
+      transform: scale(1.02);
+      box-shadow: 0 18px 28px rgba(0, 0, 0, 0.25);
+    }
+
+    .avatar-initials {
+      font-size: 3.2rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      font-family: monospace;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .name-side {
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    .title-side {
+      text-align: center;
+      font-size: 0.85rem;
+      background: rgba(255, 255, 255, 0.18);
+      display: inline-block;
+      width: auto;
+      margin: 0.6rem auto 0;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-weight: 500;
+    }
+
+    .side-section {
+      margin-top: 2rem;
+      animation: fadeSlideUp 0.5s ease-out backwards;
+      animation-delay: 0.1s;
+    }
+
+    .side-title {
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.35);
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.9rem;
+      font-size: 0.85rem;
+      word-break: break-word;
+      transition: transform 0.2s ease, padding-left 0.2s;
+    }
+
+    .contact-item:hover {
+      transform: translateX(5px);
+    }
+
+    .skill-tag {
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 30px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.78rem;
+      display: inline-block;
+      margin: 0.25rem 0.4rem 0.25rem 0;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .skill-tag:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .lang-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      margin-bottom: 0.7rem;
+      padding-bottom: 0.2rem;
+      border-bottom: 1px dashed rgba(255,255,240,0.2);
+    }
+
+    /* ========= ПРАВАЯ КОЛОНКА ========= */
+    .main-content {
+      padding: 2rem 2rem 2rem 2rem;
+      background: white;
+    }
+
+    .greeting {
+      margin-bottom: 1.8rem;
+      animation: fadeSlideRight 0.5s ease;
+    }
+
+    .badge {
+      background: #e4f0f7;
+      color: #1c6c85;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      display: inline-block;
+      margin-bottom: 0.6rem;
+    }
+
+    .main-name {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #133e4e;
+      margin: 0.3rem 0 0.2rem;
+    }
+
+    .main-tagline {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #2d6c84;
+      border-left: 4px solid #2787a5;
+      padding-left: 0.9rem;
+      margin: 0.5rem 0 1rem;
+    }
+
+    /* секции (обо мне, опыт, образование, навыки) */
+    .section {
+      margin-bottom: 2rem;
+      animation: fadeSlideUp 0.5s ease backwards;
+    }
+
+    .section:nth-of-type(1) { animation-delay: 0.05s; }
+    .section:nth-of-type(2) { animation-delay: 0.1s; }
+    .section:nth-of-type(3) { animation-delay: 0.15s; }
+    .section:nth-of-type(4) { animation-delay: 0.2s; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.2rem;
+      border-left: 4px solid #2787a5;
+      padding-left: 0.8rem;
+    }
+
+    .section-icon {
+      font-size: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1a4b5e;
+      letter-spacing: -0.3px;
+    }
+
+    /* карточки опыта / образования */
+    .exp-item, .edu-item {
+      margin-bottom: 1.5rem;
+      padding: 0.6rem 0.8rem 0.6rem 0;
+      transition: all 0.25s ease;
+      border-radius: 1rem;
+    }
+
+    .exp-item:hover, .edu-item:hover {
+      background: #f9fdfe;
+      transform: translateX(4px);
+    }
+
+    .exp-header, .edu-header {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 0.3rem;
+    }
+
+    .exp-role {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #175d74;
+    }
+
+    .exp-company {
+      font-weight: 600;
+      color: #397e98;
+      font-size: 0.85rem;
+    }
+
+    .exp-date {
+      font-size: 0.7rem;
+      background: #ecf3f8;
+      padding: 0.2rem 0.7rem;
+      border-radius: 30px;
+      color: #316d84;
+    }
+
+    .exp-desc {
+      font-size: 0.85rem;
+      color: #2c576b;
+      margin-top: 0.5rem;
+      padding-left: 0.3rem;
+      line-height: 1.45;
+    }
+
+    .exp-desc ul {
+      margin-left: 1.2rem;
+      margin-top: 0.25rem;
+    }
+
+    .exp-desc li {
+      margin-bottom: 0.25rem;
+    }
+
+    /* список навыков в правой колонке (дополнительно более визуально) */
+    .skills-list-main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .skill-main-item {
+      background: #ecf5f9;
+      color: #1a5f78;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      cursor: default;
+    }
+
+    .skill-main-item:hover {
+      background: #d4e9f2;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    /* about text */
+    .about-text {
+      background: #fafeff;
+      padding: 1rem 1.2rem;
+      border-radius: 1.2rem;
+      line-height: 1.55;
+      font-size: 0.9rem;
+      border: 1px solid #e2edf3;
+      transition: all 0.2s;
+    }
+
+    hr {
+      margin: 1rem 0;
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, #cde0e8, transparent);
+    }
+
+    /* кнопка с темой / плавный скролл / экспорт */
+    .action-group {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: white;
+      border: 1px solid #bdd8e4;
+      padding: 0.5rem 1.2rem;
+      border-radius: 60px;
+      font-weight: 500;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+      color: #1c6c85;
+    }
+
+    .btn-primary {
+      background: #1c3c4c;
+      border-color: #1c3c4c;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #285e74;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: #eef4f8;
+      border-color: #9bbdcc;
+    }
+
+    /* адаптивность */
+    @media (max-width: 780px) {
+      body {
+        padding: 1rem;
+      }
+      .resume-grid {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        text-align: center;
+      }
+      .contact-item {
+        justify-content: center;
+      }
+      .main-content {
+        padding: 1.8rem;
+      }
+      .main-name {
+        font-size: 2rem;
+      }
+      .exp-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .section-header {
+        border-left-width: 3px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .avatar-circle {
+        width: 100px;
+        height: 100px;
+      }
+      .avatar-initials {
+        font-size: 2.3rem;
+      }
+      .name-side {
+        font-size: 1.4rem;
+      }
+      .main-name {
+        font-size: 1.7rem;
+      }
+      .section-title {
+        font-size: 1.2rem;
+      }
+    }
+
+    /* анимации */
+    @keyframes fadeSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeSlideRight {
+      0% {
+        opacity: 0;
+        transform: translateX(-12px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* тёмная тема (динамическая через js) */
+    body.dark-mode {
+      background: #0f1820;
+    }
+    body.dark-mode .resume-wrapper {
+      background: #1a2a34;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.6);
+    }
+    body.dark-mode .sidebar {
+      background: #0e2029;
+    }
+    body.dark-mode .main-content {
+      background: #1e2f3a;
+      color: #eaf2f7;
+    }
+    body.dark-mode .main-name {
+      color: #efc6a0;
+    }
+    body.dark-mode .main-tagline, body.dark-mode .section-title {
+      color: #c9e2ef;
+    }
+    body.dark-mode .badge {
+      background: #2a5064;
+      color: #f0ddc5;
+    }
+    body.dark-mode .about-text {
+      background: #152a34;
+      border-color: #2b566b;
+      color: #e3f0f5;
+    }
+    body.dark-mode .exp-desc, body.dark-mode .exp-role {
+      color: #d9eaf1;
+    }
+    body.dark-mode .exp-company {
+      color: #9fcadf;
+    }
+    body.dark-mode .exp-date {
+      background: #2c4f61;
+      color: #e7f0f5;
+    }
+    body.dark-mode .skill-main-item {
+      background: #2e4e5f;
+      color: #f2efe0;
+    }
+    body.dark-mode .btn {
+      background: #294e5e;
+      border-color: #427688;
+      color: #f0f4f7;
+    }
+    body.dark-mode .btn-primary {
+      background: #ceb27a;
+      border-color: #c6a56b;
+      color: #1e2f3a;
+    }
+    body.dark-mode .btn-primary:hover {
+      background: #e0c694;
+    }
+    body.dark-mode .section-header {
+      border-left-color: #ddb582;
+    }
+    footer {
+      font-size: 0.7rem;
+      text-align: center;
+      margin-top: 1rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+<div class="resume-wrapper">
+  <div class="resume-grid">
+    <!-- ЛЕВАЯ СТОРОНА (личная информация, контакты, языки) -->
+    <aside class="sidebar">
+      <div class="avatar-block">
+        <div class="avatar-circle">
+          <div class="avatar-initials">АТ</div>
+        </div>
+        <div class="name-side">Анна Тихонова</div>
+        <div class="title-side">Frontend-разработчик / UI-энтузиаст</div>
+      </div>
+
+      <div class="side-section">
+        <div class="side-title">📞 Контакты</div>
+        <div class="contact-item">📱 +7 (916) 544-88-22</div>
+        <div class="contact-item">📧 a.tihonova@dev.me</div>
+        <div class="contact-item">💻 github.com/annyfront</div>
+        <div class="contact-item">📍 Санкт-Петербург, РФ</div>
+      </div>
+
+      <div class="side-section">
+        <div class="side-title">🛠️ Технологии</div>
+        <div>
+          <span class="skill-tag">JavaScript (ES6+)</span>
+          <span class="skill-tag">React / Next.js</span>
+          <span class="skill-tag">Vue / Pinia</span>
+          <span class="skill-tag">HTML5/CSS3</span>
+          <span class="skill-tag">Tailwind / SCSS</span>
+          <span class="skill-tag">Git / Figma</span>
+          <span class="skill-tag">Jest / Vitest</span>
+          <span class="skill-tag">Webpack / Vite</span>
+        </div>
+      </div>
+
+      <div class="side-section">
+        <div class="side-title">🌐 Языки</div>
+        <div class="lang-item"><span>Русский</span> <span>Родной</span></div>
+        <div class="lang-item"><span>English</span> <span>B2 (Upper-Intermediate)</span></div>
+        <div class="lang-item"><span>Español</span> <span>A1 (в процессе)</span></div>
+      </div>
+    </aside>
+
+    <!-- ПРАВАЯ ЧАСТЬ: обо мне, опыт, образование, навыки + секции -->
+    <main class="main-content">
+      <div class="greeting">
+        <div class="badge">✨ открыта для новых проектов</div>
+        <div class="main-name">Анна Тихонова</div>
+        <div class="main-tagline">Создаю интерфейсы, которые удобны и вдохновляют</div>
+      </div>
+
+      <!-- СЕКЦИЯ: ОБО МНЕ -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-icon">👩‍💻</span>
+          <h2 class="section-title">Обо мне</h2>
+        </div>
+        <div class="about-text">
+          🧩 Frontend-разработчик с 4+ годами коммерческого опыта. Умею превращать сложные задачи в чистый, 
+          поддерживаемый код и продуманный UX. Люблю компонентный подход, анимации и внимание к деталям. 
+          Работала в продуктовых командах и стартапах — от финтеха до edtech. Готова к релокации или full-remote.
+        </div>
+      </div>
+
+      <!-- СЕКЦИЯ: ОПЫТ РАБОТЫ -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-icon">💼</span>
+          <h2 class="section-title">Опыт работы</h2>
+        </div>
+        <div class="exp-item">
+          <div class="exp-header">
+            <span class="exp-role">Frontend-разработчик (Middle)</span>
+            <span class="exp-date">2022 — настоящее время</span>
+          </div>
+          <div class="exp-company">«SmartFlow» · Финтех-платформа</div>
+          <div class="exp-desc">
+            <ul>
+              <li>Разработал и поддерживал админ-панель и дашборды на React + TypeScript, увеличив покрытие тестами до 78%.</li>
+              <li>Внедрил модульную архитектуру и Storybook, ускорив разработку новых фич на 25%.</li>
+              <li>Настроил CI/CD pipelines, интегрировал ESLint и Prettier, провёл рефакторинг легаси-кода.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-header">
+            <span class="exp-role">Junior UI разработчик</span>
+            <span class="exp-date">2020 — 2022</span>
+          </div>
+          <div class="exp-company">«RocketStudio» · Веб-студия</div>
+          <div class="exp-desc">
+            <ul>
+              <li>Разрабатывал адаптивные лендинги и SPA на Vue 2 + Vuex; участвовал в code review.</li>
+              <li>Создал более 20 UI-компонентов в дизайн-системе, наладил коммуникацию между дизайнерами и бэкендом.</li>
+              <li>Проводил оптимизацию производительности (Lighthouse → 92+ балла).</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-header">
+            <span class="exp-role">Стажёр-верстальщик</span>
+            <span class="exp-date">2019 — 2020</span>
+          </div>
+          <div class="exp-company">«Digital Craft»</div>
+          <div class="exp-desc">
+            <ul><li>Адаптивная вёрстка на HTML5/CSS3, Pixel Perfect, кроссбраузерность, первый опыт с Git.</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- СЕКЦИЯ: ОБРАЗОВАНИЕ -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-icon">🎓</span>
+          <h2 class="section-title">Образование</h2>
+        </div>
+        <div class="edu-item">
+          <div class="exp-header">
+            <span class="exp-role">СПбГУ, Институт компьютерных наук</span>
+            <span class="exp-date">2016 — 2020</span>
+          </div>
+          <div class="exp-company">Бакалавр прикладной математики и информатики (диплом с отличием)</div>
+        </div>
+        <div class="edu-item">
+          <div class="exp-header">
+            <span class="exp-role">Яндекс.Практикум</span>
+            <span class="exp-date">2021</span>
+          </div>
+          <div class="exp-company">«React-разработчик» — продвинутый курс (Redux, Next.js, TS)</div>
+        </div>
+        <div class="edu-item">
+          <div class="exp-header">
+            <span class="exp-role">HTML Academy</span>
+            <span class="exp-date">2019</span>
+          </div>
+          <div class="exp-company">Профессиональный онлайн‑курс «JavaScript. Архитектура и паттерны»</div>
+        </div>
+      </div>
+
+      <!-- СЕКЦИЯ: НАВЫКИ (дублируется визуально с левой колонкой, но в стиле правой части) -->
+      <div class="section">
+        <div class="section-header">
+          <span class="section-icon">⚙️</span>
+          <h2 class="section-title">Ключевые навыки</h2>
+        </div>
+        <div class="skills-list-main">
+          <span class="skill-main-item">JavaScript (ES2022)</span>
+          <span class="skill-main-item">TypeScript</span>
+          <span class="skill-main-item">React / Hooks</span>
+          <span class="skill-main-item">Vue 3 / Composition API</span>
+          <span class="skill-main-item">HTML5 / Accessibility</span>
+          <span class="skill-main-item">CSS3 / Flex/Grid</span>
+          <span class="skill-main-item">Tailwind / SCSS</span>
+          <span class="skill-main-item">Git & GitHub Actions</span>
+          <span class="skill-main-item">REST API / GraphQL</span>
+          <span class="skill-main-item">Figma / Pixel Perfect</span>
+        </div>
+        <hr>
+        <div style="font-size:0.85rem; margin-top:0.4rem;">
+          🧠 Soft skills: коммуникабельность, критическое мышление, менторство, работа в кросс-командах.
+        </div>
+      </div>
+
+      <!-- КНОПКИ: тёмная тема + распечатать/сохранить PDF через печать браузера -->
+      <div class="action-group">
+        <button class="btn" id="themeSwitcherBtn">🌙 Тёмная тема</button>
+        <button class="btn btn-primary" id="printResumeBtn">📄 Сохранить в PDF</button>
+      </div>
+      <footer>© 2026 Анна Тихонова — всегда открыта для интересных задач</footer>
+    </main>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ----- ПЕРЕКЛЮЧЕНИЕ ТЕМНОЙ ТЕМЫ + localStorage -----
+    const themeBtn = document.getElementById('themeSwitcherBtn');
+    const bodyEl = document.body;
+    
+    const savedTheme = localStorage.getItem('resumeThemeV2');
+    if (savedTheme === 'dark') {
+      bodyEl.classList.add('dark-mode');
+      if (themeBtn) themeBtn.textContent = '☀️ Светлая тема';
+    } else {
+      if (themeBtn) themeBtn.textContent = '🌙 Тёмная тема';
+    }
+
+    function toggleDarkMode() {
+      bodyEl.classList.toggle('dark-mode');
+      const isDark = bodyEl.classList.contains('dark-mode');
+      localStorage.setItem('resumeThemeV2', isDark ? 'dark' : 'light');
+      if (themeBtn) {
+        themeBtn.textContent = isDark ? '☀️ Светлая тема' : '🌙 Тёмная тема';
+      }
+    }
+    if (themeBtn) themeBtn.addEventListener('click', toggleDarkMode);
+
+    // ----- КНОПКА "СОХРАНИТЬ В PDF" (вызов диалога печати с кастомными стилями) -----
+    const printBtn = document.getElementById('printResumeBtn');
+    if (printBtn) {
+      printBtn.addEventListener('click', () => {
+        // временно добавим класс для печатной версии (корректировки уже есть в медиа print)
+        window.print();
+      });
+    }
+
+    // Дополним стили печати, чтобы было максимально читаемо
+    const printStyles = document.createElement('style');
+    printStyles.textContent = `
+      @media print {
+        body {
+          background: white;
+          padding: 0;
+          margin: 0;
+        }
+        .resume-wrapper {
+          box-shadow: none;
+          border-radius: 0;
+          max-width: 100%;
+        }
+        .sidebar {
+          background: #f0f4f7 !important;
+          color: #1e2b36 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .avatar-circle {
+          background: #abcad9 !important;
+          border: 1px solid #2f6f88;
+        }
+        .avatar-initials {
+          color: #1c3c4c !important;
+        }
+        .btn, .action-group, #themeSwitcherBtn, #printResumeBtn {
+          display: none;
+        }
+        .main-content, .sidebar {
+          break-inside: avoid;
+        }
+        .skill-tag, .skill-main-item {
+          background: #e1edf3 !important;
+          color: #0b3f50 !important;
+          border: 1px solid #b9cfdd;
+        }
+        .exp-date {
+          background: #e8f0f5 !important;
+          color: #175d74;
+        }
+        body.dark-mode .main-content,
+        body.dark-mode .sidebar {
+          background: white !important;
+          color: black !important;
+        }
+        .section-title, .main-name {
+          color: #0c3444 !important;
+        }
+        a, .contact-item {
+          color: #02212e;
+        }
+        .resume-grid {
+          grid-template-columns: 34% 66%;
+        }
+      }
+    `;
+    document.head.appendChild(printStyles);
+    
+    // ---- лёгкая анимация при скролле для секций (Intersection Observer - доп эстетика) ----
+    const sectionsForObserve = document.querySelectorAll('.section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+    
+    sectionsForObserve.forEach(section => {
+      section.style.opacity = '0';
+      section.style.transform = 'translateY(12px)';
+      section.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+      observer.observe(section);
+    });
+    
+    // добавим также плавный hover эффект для всей резюме карточки
+    const wrapper = document.querySelector('.resume-wrapper');
+    if(wrapper){
+      wrapper.addEventListener('mouseenter', () => {
+        wrapper.style.transition = 'box-shadow 0.2s';
+      });
+    }
+    
+    // небольшая помощь: копирование email по клику с уведомлением (необязательно, но приятно)
+    const emailContact = Array.from(document.querySelectorAll('.contact-item')).find(el => el.innerText.includes('@'));
+    if(emailContact){
+      emailContact.style.cursor = 'pointer';
+      emailContact.addEventListener('click', () => {
+        const email = emailContact.innerText.replace('📧', '').trim();
+        navigator.clipboard.writeText(email).then(() => {
+          const tooltip = document.createElement('div');
+          tooltip.innerText = '✉️ Email скопирован!';
+          tooltip.style.position = 'fixed';
+          tooltip.style.bottom = '20px';
+          tooltip.style.left = '50%';
+          tooltip.style.transform = 'translateX(-50%)';
+          tooltip.style.backgroundColor = '#1c3c4c';
+          tooltip.style.color = '#fff';
+          tooltip.style.padding = '6px 16px';
+          tooltip.style.borderRadius = '40px';
+          tooltip.style.fontSize = '0.75rem';
+          tooltip.style.zIndex = '999';
+          tooltip.style.fontWeight = '500';
+          document.body.appendChild(tooltip);
+          setTimeout(() => tooltip.remove(), 1600);
+        }).catch(() => {});
+      });
+    }
+  })();
+</script>
+</body>
+</html>
+```
